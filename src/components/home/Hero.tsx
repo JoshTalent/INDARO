@@ -130,7 +130,7 @@ export default function Hero() {
     }),
   };
 
-  // Content animation with continuous feel
+  // Content animation with continuous feel - FIXED
   const contentVariants = {
     hidden: (direction: number) => ({
       x: direction > 0 ? 50 : -50,
@@ -140,7 +140,7 @@ export default function Hero() {
       x: 0,
       opacity: 1,
       transition: {
-        type: "tween",
+        // Removed type property to avoid type conflict
         ease: "easeOut",
         duration: 0.6,
         staggerChildren: 0.07,
@@ -149,6 +149,7 @@ export default function Hero() {
     },
   };
 
+  // Item variants - FIXED
   const itemVariants = {
     hidden: {
       x: -30,
@@ -158,13 +159,14 @@ export default function Hero() {
       x: 0,
       opacity: 1,
       transition: {
-        type: "tween",
+        // Removed type property to avoid type conflict
         ease: "easeOut",
         duration: 0.5,
       },
     },
   };
 
+  // Icon variants - THIS IS FINE (uses spring which is valid)
   const iconVariants = {
     hidden: {
       scale: 0,
