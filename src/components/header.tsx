@@ -194,12 +194,8 @@ const IndaroNavbar = () => {
 
         {/* ========== DESKTOP MENU ========== */}
         <div className="hidden md:flex items-center space-x-6 lg:space-x-8">
-          {navLinks.map((link) => {
-            function setHoveredProgram(_: string): void {
-              throw new Error("Function not implemented.");
-            }
-
-            return link.hasDropdown ? (
+          {navLinks.map((link) =>
+            link.hasDropdown ? (
               link.key === "whatWeDo" ? (
                 // What We Do dropdown
                 <div key={link.key} className="relative group">
@@ -303,10 +299,6 @@ const IndaroNavbar = () => {
                                   whileHover={{ x: 4 }}
                                   onClick={closeWhatWeDoDropdown}
                                   className="group/program flex items-center justify-between p-3 rounded-xl hover:bg-white/5 transition-all duration-200"
-                                  onHoverStart={() =>
-                                    setHoveredProgram(item.name)
-                                  }
-                                  onHoverEnd={() => setHoveredProgram("")}
                                 >
                                   <span className="font-medium text-sm text-white/90 group-hover/program:text-indaro-primary transition-colors">
                                     {item.name}
@@ -334,7 +326,7 @@ const IndaroNavbar = () => {
                                 </span>
                               </div>
                               <motion.a
-                                href="/impact"
+                                href="/what/we/do"
                                 whileHover={{ scale: 1.05 }}
                                 whileTap={{ scale: 0.95 }}
                                 onClick={closeWhatWeDoDropdown}
@@ -503,8 +495,8 @@ const IndaroNavbar = () => {
                   }`}
                 />
               </motion.div>
-            );
-          })}
+            ),
+          )}
 
           {/* Language Switcher */}
           <div className="flex items-center gap-1 px-3 py-2 bg-white/10 rounded-full border border-white/10">
