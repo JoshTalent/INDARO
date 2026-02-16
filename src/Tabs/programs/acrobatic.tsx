@@ -1,7 +1,6 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { Link } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
-import { useTranslation } from "react-i18next";
 
 // Acrobatics Program data - Following Tigers data structure
 const acrobaticsProgram = {
@@ -173,7 +172,7 @@ const acrobaticsProgram = {
 };
 
 // Fixed Support CTA Component - Following Tigers pattern exactly
-const FixedSupportCTA = ({ program }) => {
+const FixedSupportCTA = ({ program }: { program: typeof acrobaticsProgram }) => {
   const [isMinimized, setIsMinimized] = useState(false);
 
   return (

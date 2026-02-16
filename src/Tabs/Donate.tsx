@@ -2,44 +2,31 @@ import React, { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Link } from "react-router-dom";
 import { useTranslation } from "react-i18next";
+
 import {
-  Heart,
-  CreditCard,
-  Landmark,
-  Smartphone,
-  DollarSign,
-  CheckCircle,
-  Copy,
-  Check,
-  ArrowRight,
-  Shield,
-  Lock,
-  Gift,
-  TrendingUp,
-  Users,
-  Calendar,
-  Clock,
-  Award,
-  Globe,
-  ChevronRight,
-  X,
-  AlertCircle,
-  Info,
-  Sparkles,
-  Share2,
-  Download,
-  Mail,
-  Phone,
-  MessageCircle,
-  Banknote,
-  Wallet,
-  QrCode,
-  Camera,
-  Coffee,
   BookOpen,
   Music,
   Home,
+  Check,
+  Copy,
+  Info,
+  Smartphone,
+  CheckCircle,
+  CreditCard,
+  TrendingUp,
+  Heart,
+  Lock,
+  Landmark,
+  Download,
+  Award,
+  Sparkles,
+  Shield,
+  Phone,
+  Mail,
+  Users,
+  ChevronRight,
   Briefcase,
+  Gift,
 } from "lucide-react";
 
 // Donation amounts presets
@@ -68,18 +55,25 @@ const impactStories = [
 ];
 
 // Bank Details Component
-const BankDetails = ({ onCopy }) => {
+interface CopyHandler {
+  onCopy?: () => void;
+}
+interface CopyButtonProps {
+  text: string;
+  field: string;
+}
+const BankDetails = ({ onCopy }: CopyHandler) => {
   const { t } = useTranslation();
-  const [copiedField, setCopiedField] = useState(null);
+  const [copiedField, setCopiedField] = useState<string | null>(null);
 
-  const handleCopy = (text, field) => {
+  const handleCopy = (text: string, field: string) => {
     navigator.clipboard.writeText(text);
     setCopiedField(field);
     setTimeout(() => setCopiedField(null), 2000);
     if (onCopy) onCopy();
   };
 
-  const CopyButton = ({ text, field }) => (
+  const CopyButton = ({ text, field }: CopyButtonProps) => (
     <button
       onClick={() => handleCopy(text, field)}
       className="p-2 hover:bg-gray-100 rounded-lg transition-colors"
@@ -143,18 +137,18 @@ const BankDetails = ({ onCopy }) => {
 };
 
 // Mobile Money Details Component
-const MobileMoneyDetails = ({ onCopy }) => {
+const MobileMoneyDetails = ({ onCopy }: CopyHandler) => {
   const { t } = useTranslation();
-  const [copiedField, setCopiedField] = useState(null);
+  const [copiedField, setCopiedField] = useState<string | null>(null);
 
-  const handleCopy = (text, field) => {
+  const handleCopy = (text: string, field: string) => {
     navigator.clipboard.writeText(text);
     setCopiedField(field);
     setTimeout(() => setCopiedField(null), 2000);
     if (onCopy) onCopy();
   };
 
-  const CopyButton = ({ text, field }) => (
+  const CopyButton = ({ text, field }: CopyButtonProps) => (
     <button
       onClick={() => handleCopy(text, field)}
       className="p-2 hover:bg-gray-100 rounded-lg transition-colors"
@@ -246,6 +240,15 @@ const MobileMoneyDetails = ({ onCopy }) => {
 };
 
 // Payment Method Card
+interface PaymentMethodCardProps {
+  method: string;
+  selected: boolean;
+  onSelect: (method: string) => void;
+  icon: React.ComponentType<{ className?: string }>;
+  title: string;
+  description: string;
+  children?: React.ReactNode;
+}
 const PaymentMethodCard = ({
   method,
   selected,
@@ -254,8 +257,8 @@ const PaymentMethodCard = ({
   title,
   description,
   children,
-}) => {
-  const { t } = useTranslation();
+}: PaymentMethodCardProps) => {
+
 
   return (
     <motion.div
@@ -394,7 +397,7 @@ const RecentDonors = () => {
 };
 
 // Success Modal
-const SuccessModal = ({ amount, method, onClose }) => {
+const SuccessModal = ({ amount, onClose }: { amount: number; onClose: () => void }) => {
   const { t } = useTranslation();
 
   return (
@@ -442,39 +445,32 @@ const SuccessModal = ({ amount, method, onClose }) => {
 };
 
 // Main Donate Page Component
-const DonatePage = () => {
+const DonatePage: React.FC = () => {
   const { t } = useTranslation();
   const [selectedMethod, setSelectedMethod] = useState("card");
-  const [selectedAmount, setSelectedAmount] = useState(50);
-  const [customAmount, setCustomAmount] = useState("");
-  const [isMonthly, setIsMonthly] = useState(false);
-  const [formData, setFormData] = useState({
-    firstName: "",
-    lastName: "",
-    email: "",
-    phone: "",
-    message: "",
-  });
-  const [formStatus, setFormStatus] = useState("idle");
-  const [showSuccessModal, setShowSuccessModal] = useState(false);
-  const [copied, setCopied] = useState(false);
+  const [selectedAmount, setSelectedAmount] = useState<number | null>(50);
+  const [customAmount, setCustomAmount] = useState<string>("");
+  const [isMonthly, setIsMonthly] = useState<boolean>(false);
+  const [formStatus, setFormStatus] = useState<string>("idle");
+  const [showSuccessModal, setShowSuccessModal] = useState<boolean>(false);
+  const [copied, setCopied] = useState<boolean>(false);
 
   // Get impact stories from translations
   const impactStoryData = t("donate.impactSection.yourImpact.stories", {
     returnObjects: true,
   });
 
-  const handleAmountSelect = (amount) => {
+  const handleAmountSelect = (amount: number) => {
     setSelectedAmount(amount);
     setCustomAmount("");
   };
 
-  const handleCustomAmount = (e) => {
+  const handleCustomAmount = (e: React.ChangeEvent<HTMLInputElement>) => {
     setCustomAmount(e.target.value);
     setSelectedAmount(null);
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setFormStatus("submitting");
 
@@ -486,7 +482,7 @@ const DonatePage = () => {
     }, 2000);
   };
 
-  const handleCopyAll = () => {
+  const handleCopyAll = (): void => {
     const bankDetails = `
 Bank Transfer Details:
 Bank: ${t("donate.bankDetails.bankName")}
@@ -891,25 +887,35 @@ Name: ${t("donate.mobileMoney.accountName")}
                 </h3>
                 <div className="space-y-4">
                   {Array.isArray(impactStoryData) &&
-                    impactStoryData.map((story, idx) => (
-                      <div key={idx} className="flex gap-3">
-                        <div className="w-16 h-16 rounded-lg overflow-hidden flex-shrink-0">
-                          <img
-                            src={impactStories[idx].image}
-                            alt={story.title}
-                            className="w-full h-full object-cover"
-                          />
+                    (
+                      impactStoryData as {
+                        title: string;
+                        description: string;
+                      }[]
+                    ).map(
+                      (
+                        story: { title: string; description: string },
+                        idx: number,
+                      ) => (
+                        <div key={idx} className="flex gap-3">
+                          <div className="w-16 h-16 rounded-lg overflow-hidden flex-shrink-0">
+                            <img
+                              src={impactStories[idx].image}
+                              alt={story.title}
+                              className="w-full h-full object-cover"
+                            />
+                          </div>
+                          <div>
+                            <h4 className="font-semibold text-sm">
+                              {story.title}
+                            </h4>
+                            <p className="text-xs text-gray-600">
+                              {story.description}
+                            </p>
+                          </div>
                         </div>
-                        <div>
-                          <h4 className="font-semibold text-sm">
-                            {story.title}
-                          </h4>
-                          <p className="text-xs text-gray-600">
-                            {story.description}
-                          </p>
-                        </div>
-                      </div>
-                    ))}
+                      ),
+                    )}
                 </div>
               </div>
 
@@ -923,9 +929,11 @@ Name: ${t("donate.mobileMoney.accountName")}
                   {t("donate.impactSection.whyDonate.title")}
                 </h3>
                 <ul className="space-y-3">
-                  {t("donate.impactSection.whyDonate.reasons", {
-                    returnObjects: true,
-                  }).map((reason, idx) => (
+                  {(
+                    t("donate.impactSection.whyDonate.reasons", {
+                      returnObjects: true,
+                    }) as string[]
+                  ).map((reason: string, idx: number) => (
                     <li key={idx} className="flex items-start gap-2 text-sm">
                       <CheckCircle className="w-4 h-4 text-purple-200 mt-0.5" />
                       <span>{reason}</span>
@@ -1084,7 +1092,6 @@ Name: ${t("donate.mobileMoney.accountName")}
         {showSuccessModal && (
           <SuccessModal
             amount={donationAmount}
-            method={selectedMethod}
             onClose={() => setShowSuccessModal(false)}
           />
         )}

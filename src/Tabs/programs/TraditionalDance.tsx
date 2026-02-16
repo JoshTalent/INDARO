@@ -1,8 +1,6 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { Link } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
-import { useTranslation } from "react-i18next";
-
 // Traditional Dance Program data - Following Tigers data structure
 const traditionalDanceProgram = {
   id: "traditional-dance",
@@ -229,7 +227,7 @@ const traditionalDanceProgram = {
 };
 
 // Fixed Support CTA Component - Following Tigers pattern exactly
-const FixedSupportCTA = ({ program }) => {
+const FixedSupportCTA = ({ program }: { program: typeof traditionalDanceProgram }) => {
   const [isMinimized, setIsMinimized] = useState(false);
 
   return (

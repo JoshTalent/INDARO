@@ -1,5 +1,4 @@
-import React from "react";
-import { Routes, Route, Link, useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import { motion } from "framer-motion";
 
 // Program data with images from Unsplash (free to use)

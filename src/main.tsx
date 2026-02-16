@@ -31,7 +31,7 @@ import Acrobatic from "./Tabs/programs/acrobatic.tsx";
 import Singing from "./Tabs/programs/Singing.tsx";
 import Fashion from "./Tabs/programs/Fashion.tsx";
 import TraditionalDrumming from "./Tabs/programs/TraditionalDrumming.tsx";
-import Skating from "./Tabs/programs/skating.tsx"; 
+import Skating from "./Tabs/programs/Skating.tsx"; 
 import GoodManners from "./Tabs/programs/GoodManners.tsx";
 
 const route = createBrowserRouter(

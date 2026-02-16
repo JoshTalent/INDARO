@@ -1,5 +1,5 @@
-import React, { useState } from "react";
-import { Link, useParams } from "react-router-dom";
+import { useState } from "react";
+import { Link} from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
 import { useTranslation } from "react-i18next";
 
@@ -143,7 +143,7 @@ const boxingProgram = {
 };
 
 // Fixed Donation CTA Component for Tigers Boxing
-const FixedDonationCTA = ({ t, program }) => {
+const FixedDonationCTA = ({ program }: { program: typeof boxingProgram }) => {
   const [isMinimized, setIsMinimized] = useState(false);
 
   return (
@@ -260,7 +260,7 @@ const TigersBoxingDetailPage = () => {
   return (
     <div className="min-h-screen bg-white relative">
       {/* Fixed Donation CTA */}
-      <FixedDonationCTA t={t} program={program} />
+      <FixedDonationCTA program={program} />
 
       {/* Hero Section with Main Image */}
       <section className="relative h-[60vh] min-h-[500px] overflow-hidden">

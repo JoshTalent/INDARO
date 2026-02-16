@@ -1,27 +1,19 @@
-import React, { useEffect, useRef, useState } from "react";
+import  { useEffect, useRef } from "react";
 import { motion, useInView, useAnimation } from "framer-motion";
 import { useTranslation } from "react-i18next";
 import {
   Users,
-  Award,
   GraduationCap,
   Home,
   Calendar,
   Heart,
-  TrendingUp,
   Download,
-  MapPin,
-  PieChart,
   Quote,
   ArrowRight,
-  ChevronRight,
   BookOpen,
   Music,
-  Dumbbell,
-  Coffee,
   Globe,
   Target,
-  BarChart3,
 } from "lucide-react";
 import CountUp from "react-countup";
 import {
@@ -31,8 +23,7 @@ import {
   Pie,
   Cell,
   ResponsiveContainer,
-  Tooltip,
-  Legend,
+  Tooltip
 } from "recharts";
 import { MapContainer, TileLayer, Marker, Popup } from "react-leaflet";
 import "leaflet/dist/leaflet.css";
@@ -269,37 +260,7 @@ const ImpactPage = () => {
 
   const COLORS = ["#2563eb", "#10b981", "#8b5cf6", "#f59e0b", "#6b7280"];
 
-  const timeline = [
-    {
-      year: "2021",
-      event: t("impact.growthTimeline.events.2021", "Foundation Established"),
-    },
-    {
-      year: "2022",
-      event: t(
-        "impact.growthTimeline.events.2022",
-        "First Dance Program Launched",
-      ),
-    },
-    {
-      year: "2023",
-      event: t(
-        "impact.growthTimeline.events.2023",
-        "Education Reintegration Program Started",
-      ),
-    },
-    {
-      year: "2024",
-      event: t("impact.growthTimeline.events.2024", "ICT Training Introduced"),
-    },
-    {
-      year: "2025",
-      event: t(
-        "impact.growthTimeline.events.2025",
-        "Expanded to 200+ Beneficiaries",
-      ),
-    },
-  ];
+
 
   // Safely get testimonials with fallback
   const getTestimonials = (): Testimonial[] => {
@@ -749,7 +710,7 @@ const ImpactPage = () => {
                     dataKey="value"
                     label
                   >
-                    {financialData.map((entry, index) => (
+                    {financialData.map((_, index) => (
                       <Cell
                         key={`cell-${index}`}
                         fill={COLORS[index % COLORS.length]}

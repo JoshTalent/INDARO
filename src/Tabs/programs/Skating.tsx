@@ -1,8 +1,6 @@
-import React, { useState } from "react";
+import  { useState } from "react";
 import { Link } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
-import { useTranslation } from "react-i18next";
-
 // Skating Program data - Following Tigers data structure
 const skatingProgram = {
   id: "skating",
@@ -175,7 +173,18 @@ const skatingProgram = {
 };
 
 // Fixed Support CTA Component - Following Tigers pattern exactly
-const FixedSupportCTA = ({ program }) => {
+interface SkatingProgramType {
+  stats: {
+    totalMembers: number;
+    activeSkaters: number;
+    femaleSkaters: number;
+    medalsWon: number;
+    eventsHosted: number;
+    yearsRunning: number;
+  };
+}
+
+const FixedSupportCTA = ({ program }: { program: SkatingProgramType }) => {
   const [isMinimized, setIsMinimized] = useState(false);
 
   return (

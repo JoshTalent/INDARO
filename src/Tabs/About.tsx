@@ -6,7 +6,6 @@ import {
   useScroll,
   useTransform,
   useSpring,
-  useMotionValue,
   useMotionTemplate,
 } from "framer-motion";
 import { useTranslation } from "react-i18next";
@@ -32,25 +31,15 @@ import {
   Twitter,
   ArrowRight,
   CheckCircle,
-  Users2,
   Briefcase,
   Music,
   BookHeart,
   Trophy,
   Palette,
   ChevronDown,
-  Github,
-  Instagram,
-  MapPin,
   Clock,
-  Phone,
   ExternalLink,
-  BookOpen,
-  Star,
   TrendingUp,
-  Zap,
-  BarChart3,
-  Network,
   Layers,
 } from "lucide-react";
 
@@ -111,7 +100,6 @@ export default function About() {
   const containerRef = useRef<HTMLDivElement>(null);
   const heroRef = useRef<HTMLDivElement>(null);
   const [hoveredValue, setHoveredValue] = useState<number | null>(null);
-  const [hoveredTeam, setHoveredTeam] = useState<number | null>(null);
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
   const [activeTab, setActiveTab] = useState<"mission" | "vision" | "values">(
     "mission",
@@ -1177,14 +1165,12 @@ export default function About() {
             className="grid md:grid-cols-2 lg:grid-cols-4 gap-6"
           >
             {leadershipTeam.map((member, index) => {
-              const isHovered = hoveredTeam === index;
-
               return (
                 <motion.div
                   key={index}
                   variants={scaleIn}
-                  onHoverStart={() => setHoveredTeam(index)}
-                  onHoverEnd={() => setHoveredTeam(null)}
+                  onHoverStart={() => setHoveredValue(index)}
+                  onHoverEnd={() => setHoveredValue(null)}
                   className="group relative"
                 >
                   <div className="absolute -inset-0.5 bg-gradient-to-r from-blue-600/20 to-blue-400/20 rounded-2xl blur opacity-0 group-hover:opacity-100 transition-opacity duration-500" />

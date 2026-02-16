@@ -1,5 +1,29 @@
 // GalleryPage.tsx
 import React, { useState, useEffect } from "react";
+
+// Gallery item type
+type GalleryItem = {
+  id: number;
+  type: "image" | "video";
+  category: string;
+  subcategory: string;
+  title: string;
+  description: string;
+  location: string;
+  date: string;
+  photographer?: string;
+  videographer?: string;
+  featured?: boolean;
+  likes: number;
+  downloads: number;
+  imageUrl?: string;
+  videoUrl?: string;
+  poster?: string;
+  thumbnail: string;
+  tags: string[];
+  duration?: string;
+  views?: number;
+};
 import { motion, AnimatePresence } from "framer-motion";
 import { Link } from "react-router-dom";
 import { useTranslation } from "react-i18next";
@@ -33,11 +57,11 @@ import {
 } from "lucide-react";
 
 // Sample gallery data - replace with actual content
-const galleryItems = [
+const galleryItems: GalleryItem[] = [
   // Dance & Performance Images
   {
     id: 1,
-    type: "image",
+    type: "image" as const,
     category: "dance",
     subcategory: "traditional",
     title: "Traditional Dance Performance",
@@ -57,7 +81,7 @@ const galleryItems = [
   },
   {
     id: 2,
-    type: "image",
+    type: "image" as const,
     category: "dance",
     subcategory: "afro",
     title: "Afro Dance Workshop",
@@ -76,7 +100,7 @@ const galleryItems = [
   },
   {
     id: 3,
-    type: "video",
+    type: "video" as const,
     category: "dance",
     subcategory: "breakdance",
     title: "Breakdance Battle Finals",
@@ -87,6 +111,7 @@ const galleryItems = [
     duration: "3:45",
     likes: 892,
     views: 2345,
+    downloads: 0,
     videoUrl: "https://example.com/video1.mp4",
     thumbnail:
       "https://images.unsplash.com/photo-1545249390-6bdfa286032f?ixlib=rb-4.0.3&w=400",
@@ -96,7 +121,7 @@ const galleryItems = [
   },
   {
     id: 4,
-    type: "image",
+    type: "image" as const,
     category: "education",
     subcategory: "classroom",
     title: "ICT Training Session",
@@ -115,7 +140,7 @@ const galleryItems = [
   },
   {
     id: 5,
-    type: "image",
+    type: "image" as const,
     category: "education",
     subcategory: "materials",
     title: "School Supplies Distribution",
@@ -133,7 +158,7 @@ const galleryItems = [
   },
   {
     id: 6,
-    type: "video",
+    type: "video" as const,
     category: "education",
     subcategory: "success",
     title: "Student Success Stories",
@@ -145,6 +170,7 @@ const galleryItems = [
     duration: "5:20",
     likes: 445,
     views: 1678,
+    downloads: 0,
     videoUrl: "https://example.com/video2.mp4",
     thumbnail:
       "https://images.unsplash.com/photo-1523240795612-9a054b0db644?ixlib=rb-4.0.3&w=400",
@@ -154,7 +180,7 @@ const galleryItems = [
   },
   {
     id: 7,
-    type: "image",
+    type: "image" as const,
     category: "sports",
     subcategory: "boxing",
     title: "Boxing Training Session",
@@ -173,7 +199,7 @@ const galleryItems = [
   },
   {
     id: 8,
-    type: "video",
+    type: "video" as const,
     category: "sports",
     subcategory: "boxing",
     title: "Inter-school Boxing Tournament",
@@ -184,6 +210,7 @@ const galleryItems = [
     duration: "4:15",
     likes: 567,
     views: 2341,
+    downloads: 0,
     videoUrl: "https://example.com/video3.mp4",
     thumbnail:
       "https://images.unsplash.com/photo-1552072092-7f9b8d63efcb?ixlib=rb-4.0.3&w=400",
@@ -193,7 +220,7 @@ const galleryItems = [
   },
   {
     id: 9,
-    type: "image",
+    type: "image" as const,
     category: "sports",
     subcategory: "skating",
     title: "Skating Club Session",
@@ -211,7 +238,7 @@ const galleryItems = [
   },
   {
     id: 10,
-    type: "image",
+    type: "image" as const,
     category: "living",
     subcategory: "shelter",
     title: "Safe Home Environment",
@@ -230,7 +257,7 @@ const galleryItems = [
   },
   {
     id: 11,
-    type: "video",
+    type: "video" as const,
     category: "living",
     subcategory: "meals",
     title: "Daily Meal Program",
@@ -241,6 +268,7 @@ const galleryItems = [
     duration: "2:30",
     likes: 234,
     views: 1234,
+    downloads: 0,
     videoUrl: "https://example.com/video4.mp4",
     thumbnail:
       "https://images.unsplash.com/photo-1593113598338-cd288d649433?ixlib=rb-4.0.3&w=400",
@@ -250,7 +278,7 @@ const galleryItems = [
   },
   {
     id: 12,
-    type: "image",
+    type: "image" as const,
     category: "music",
     subcategory: "drumming",
     title: "Umutagara Drumming Practice",
@@ -320,9 +348,26 @@ const categories = [
 ];
 
 // Lightbox Component with i18n
-const Lightbox = ({ item, onClose, onNext, onPrev, hasNext, hasPrev, t }) => {
-  const [zoomLevel, setZoomLevel] = useState(1);
-  const [showInfo, setShowInfo] = useState(true);
+type LightboxProps = {
+  item: GalleryItem;
+  onClose: () => void;
+  onNext: () => void;
+  onPrev: () => void;
+  hasNext: boolean;
+  hasPrev: boolean;
+  t: (key: string, options?: any) => string;
+};
+const Lightbox: React.FC<LightboxProps> = ({
+  item,
+  onClose,
+  onNext,
+  onPrev,
+  hasNext,
+  hasPrev,
+  t,
+}) => {
+  const [zoomLevel, setZoomLevel] = useState<number>(1);
+  const [showInfo, setShowInfo] = useState<boolean>(true);
 
   if (!item) return null;
 
@@ -485,7 +530,7 @@ const Lightbox = ({ item, onClose, onNext, onPrev, hasNext, hasPrev, t }) => {
                 {t("gallery.lightbox.tags")}
               </h3>
               <div className="flex flex-wrap gap-2">
-                {item.tags.map((tag, idx) => (
+                {item.tags.map((tag: string, idx: number) => (
                   <span
                     key={idx}
                     className="px-3 py-1 bg-gray-100 text-gray-600 rounded-full text-sm"
@@ -523,9 +568,14 @@ const Lightbox = ({ item, onClose, onNext, onPrev, hasNext, hasPrev, t }) => {
 };
 
 // Gallery Card Component with i18n
-const GalleryCard = ({ item, onClick, t }) => {
-  const [isHovered, setIsHovered] = useState(false);
-  const [isLiked, setIsLiked] = useState(false);
+type GalleryCardProps = {
+  item: GalleryItem;
+  onClick: () => void;
+  t: (key: string, options?: any) => string;
+};
+const GalleryCard: React.FC<GalleryCardProps> = ({ item, onClick, t }) => {
+  const [isHovered, setIsHovered] = useState<boolean>(false);
+  const [isLiked, setIsLiked] = useState<boolean>(false);
 
   return (
     <motion.div
@@ -621,7 +671,7 @@ const GalleryCard = ({ item, onClick, t }) => {
         </div>
 
         <div className="flex flex-wrap gap-1 mt-3">
-          {item.tags.slice(0, 2).map((tag, idx) => (
+          {item.tags.slice(0, 2).map((tag: string, idx: number) => (
             <span
               key={idx}
               className="px-2 py-0.5 bg-gray-100 text-gray-600 rounded text-xs"
@@ -641,18 +691,21 @@ const GalleryCard = ({ item, onClick, t }) => {
 };
 
 // Main Gallery Component with i18n
-const GalleryPage = () => {
+const GalleryPage: React.FC = () => {
   const { t } = useTranslation();
-  const [selectedCategory, setSelectedCategory] = useState("all");
-  const [selectedItem, setSelectedItem] = useState(null);
-  const [filteredItems, setFilteredItems] = useState(galleryItems);
-  const [viewMode, setViewMode] = useState("grid");
-  const [searchQuery, setSearchQuery] = useState("");
-  const [showFilters, setShowFilters] = useState(false);
-  const [sortBy, setSortBy] = useState("latest");
+  const [selectedCategory, setSelectedCategory] = useState<string>("all");
+  const [selectedItem, setSelectedItem] = useState<GalleryItem | null>(null);
+  const [filteredItems, setFilteredItems] =
+    useState<GalleryItem[]>(galleryItems);
+  const [viewMode, setViewMode] = useState<"grid" | "list">("grid");
+  const [searchQuery, setSearchQuery] = useState<string>("");
+  const [showFilters, setShowFilters] = useState<boolean>(false);
+  const [sortBy, setSortBy] = useState<"latest" | "popular" | "featured">(
+    "latest",
+  );
 
   useEffect(() => {
-    let filtered = [...galleryItems];
+    let filtered: GalleryItem[] = [...galleryItems];
 
     if (selectedCategory === "images") {
       filtered = filtered.filter((item) => item.type === "image");
@@ -674,7 +727,7 @@ const GalleryPage = () => {
     }
 
     if (sortBy === "latest") {
-      filtered.sort((a, b) => new Date(b.date) - new Date(a.date));
+      filtered.sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
     } else if (sortBy === "popular") {
       filtered.sort(
         (a, b) => b.likes + (b.views || 0) - (a.likes + (a.views || 0)),
@@ -683,7 +736,7 @@ const GalleryPage = () => {
       filtered.sort((a, b) => (b.featured ? 1 : 0) - (a.featured ? 1 : 0));
     }
 
-    setFilteredItems(filtered);
+    setFilteredItems(filtered as GalleryItem[]);
   }, [selectedCategory, searchQuery, sortBy]);
 
   const currentIndex = selectedItem
@@ -893,7 +946,9 @@ const GalleryPage = () => {
             <div className="flex items-center gap-3 w-full md:w-auto">
               <select
                 value={sortBy}
-                onChange={(e) => setSortBy(e.target.value)}
+                onChange={(e) =>
+                  setSortBy(e.target.value as "latest" | "popular" | "featured")
+                }
                 className="px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-500 bg-white"
               >
                 <option value="latest">

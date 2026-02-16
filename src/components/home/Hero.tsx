@@ -1,4 +1,4 @@
-// src/components/home/Hero.tsx
+// src/components/home/Hero.tsx (complete fixed file)
 "use client";
 
 import { useState, useEffect, useCallback, useRef } from "react";
@@ -103,13 +103,13 @@ export default function Hero() {
       opacity: 1,
       transition: {
         x: {
-          type: "tween",
-          ease: [0.25, 0.1, 0.25, 1], // Cubic bezier for smooth continuous motion
+          type: "tween" as const,
+          ease: "easeInOut" as const,
           duration: 0.7,
         },
         opacity: {
           duration: 0.4,
-          ease: "easeOut",
+          ease: "easeOut" as const,
         },
       },
     },
@@ -118,19 +118,19 @@ export default function Hero() {
       opacity: 1,
       transition: {
         x: {
-          type: "tween",
-          ease: [0.25, 0.1, 0.25, 1],
+          type: "tween" as const,
+          ease: "easeInOut" as const,
           duration: 0.7,
         },
         opacity: {
           duration: 0.3,
-          ease: "easeIn",
+          ease: "easeIn" as const,
         },
       },
     }),
   };
 
-  // Content animation with continuous feel - FIXED
+  // Content animation - FIXED: removed type property
   const contentVariants = {
     hidden: (direction: number) => ({
       x: direction > 0 ? 50 : -50,
@@ -140,8 +140,7 @@ export default function Hero() {
       x: 0,
       opacity: 1,
       transition: {
-        // Removed type property to avoid type conflict
-        ease: "easeOut",
+        ease: "easeOut" as const,
         duration: 0.6,
         staggerChildren: 0.07,
         delayChildren: 0.15,
@@ -149,7 +148,7 @@ export default function Hero() {
     },
   };
 
-  // Item variants - FIXED
+  // Item variants - FIXED: removed type property
   const itemVariants = {
     hidden: {
       x: -30,
@@ -159,14 +158,13 @@ export default function Hero() {
       x: 0,
       opacity: 1,
       transition: {
-        // Removed type property to avoid type conflict
-        ease: "easeOut",
+        ease: "easeOut" as const,
         duration: 0.5,
       },
     },
   };
 
-  // Icon variants - THIS IS FINE (uses spring which is valid)
+  // Icon variants - FIXED: added type assertion
   const iconVariants = {
     hidden: {
       scale: 0,
@@ -178,7 +176,7 @@ export default function Hero() {
       rotate: 0,
       opacity: 1,
       transition: {
-        type: "spring",
+        type: "spring" as const,
         stiffness: 200,
         damping: 20,
         delay: 0.1,
@@ -193,7 +191,7 @@ export default function Hero() {
     const timer = setInterval(() => {
       setDirection(1);
       setCurrentSlide((prev) => (prev + 1) % heroSlides.length);
-    }, 5000); // Slightly reduced for better flow
+    }, 5000);
 
     return () => clearInterval(timer);
   }, [isAutoplay, isAnimating]);
@@ -248,13 +246,6 @@ export default function Hero() {
   const currentSlideData = heroSlides[currentSlide];
   const IconComponent = currentSlideData.iconComponent;
 
-  // Create a seamless sliding track
-  const slides = [
-    heroSlides[heroSlides.length - 1],
-    ...heroSlides,
-    heroSlides[0],
-  ];
-
   return (
     <section
       ref={containerRef}
@@ -268,7 +259,7 @@ export default function Hero() {
         <AnimatePresence
           initial={false}
           custom={direction}
-          mode="popLayout" // Changed to popLayout for seamless transitions
+          mode="popLayout"
           onExitComplete={() => setIsAnimating(false)}
         >
           <motion.div
@@ -283,6 +274,7 @@ export default function Hero() {
               width: "100%",
               willChange: "transform",
             }}
+            
           >
             {/* Background Image with Fallback */}
             <div className="relative h-full w-full">
@@ -421,7 +413,7 @@ export default function Hero() {
                         whileHover={{ scale: 1.05, x: 5 }}
                         whileTap={{ scale: 0.95 }}
                         transition={{
-                          type: "spring",
+                          type: "spring" as const,
                           stiffness: 400,
                           damping: 17,
                         }}
@@ -436,7 +428,10 @@ export default function Hero() {
                         <motion.div
                           initial={{ x: "-100%" }}
                           whileHover={{ x: 0 }}
-                          transition={{ duration: 0.3, ease: "easeOut" }}
+                          transition={{
+                            duration: 0.3,
+                            ease: "easeOut" as const,
+                          }}
                           className="absolute inset-0 bg-gradient-to-r from-amber-400 to-orange-500"
                         />
                       </motion.button>
@@ -445,7 +440,7 @@ export default function Hero() {
                         whileHover={{ scale: 1.05, x: 5 }}
                         whileTap={{ scale: 0.95 }}
                         transition={{
-                          type: "spring",
+                          type: "spring" as const,
                           stiffness: 400,
                           damping: 17,
                         }}
@@ -516,7 +511,7 @@ export default function Hero() {
                 width: index === currentSlide ? 48 : 8,
               }}
               transition={{
-                type: "spring",
+                type: "spring" as const,
                 stiffness: 300,
                 damping: 30,
               }}
@@ -533,7 +528,7 @@ export default function Hero() {
           animate={{ scaleX: 1 }}
           transition={{
             duration: 5,
-            ease: "linear",
+            ease: "linear" as const,
             repeat: isAutoplay ? Infinity : 0,
             repeatType: "loop",
           }}
@@ -554,7 +549,7 @@ export default function Hero() {
           transition={{
             duration: 4,
             repeat: Infinity,
-            ease: "easeInOut",
+            ease: "easeInOut" as const,
           }}
           className="flex items-center gap-3 px-4 py-2 bg-white/10 backdrop-blur-md rounded-full border border-white/20"
         >
@@ -585,7 +580,7 @@ export default function Hero() {
         transition={{
           duration: 3,
           repeat: Infinity,
-          ease: "easeInOut",
+          ease: "easeInOut" as const,
         }}
         className="absolute bottom-24 left-1/2 -translate-x-1/2 z-20 text-white/40 text-sm flex items-center gap-3"
       >
@@ -597,7 +592,7 @@ export default function Hero() {
           transition={{
             duration: 2,
             repeat: Infinity,
-            ease: "easeInOut",
+            ease: "easeInOut" as const,
           }}
         >
           Continuous Slide

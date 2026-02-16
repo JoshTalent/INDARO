@@ -1,5 +1,5 @@
-// NewsEventsPage.tsx (with all mock data untouched, only UI translated)
-import React, { useState } from "react";
+// NewsEventsPage.tsx (with all mock data untouched, only UI translated and types fixed)
+import React, { useState, JSX } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Link } from "react-router-dom";
 import { useTranslation } from "react-i18next";
@@ -13,41 +13,113 @@ import {
   Share2,
   Heart,
   Bookmark,
-  MessageCircle,
   Eye,
-  Filter,
   Search,
   Grid,
   List,
   Music,
-  Camera,
-  Video,
-  Trophy,
   Star,
-  ArrowRight,
-  Calendar as CalendarIcon,
   Bell,
   Volume2,
   Newspaper,
   Mic,
   Theater,
   Sparkles,
-  Gift,
-  Coffee,
-  Globe,
-  Instagram,
-  Twitter,
-  Facebook,
   Mail,
   Phone,
-  Download,
-  PlusCircle,
-  ChevronLeft,
   CheckCircle,
 } from "lucide-react";
 
+// Type Definitions
+interface NewsItem {
+  id: number;
+  title: string;
+  excerpt: string;
+  content: string;
+  category: string;
+  type: string;
+  image: string;
+  date: string;
+  author: string;
+  authorRole: string;
+  authorImage: string;
+  readTime: string;
+  views: number;
+  likes: number;
+  comments: number;
+  featured: boolean;
+  tags: string[];
+}
+
+interface EventItem {
+  id: number;
+  title: string;
+  type: string;
+  description: string;
+  longDescription: string;
+  date: string;
+  time: string;
+  location: string;
+  address: string;
+  image: string;
+  price: string;
+  capacity: number;
+  registered: number;
+  featured: boolean;
+  category: string;
+  tags: string[];
+}
+
+interface HirePackage {
+  id: string;
+  name: string;
+  icon: JSX.Element;
+  description: string;
+  groupSize: string;
+  duration: string;
+  price: string;
+  includes: string[];
+}
+
+interface Testimonial {
+  id: number;
+  name: string;
+  comment: string;
+  rating: number;
+  event: string;
+}
+
+interface NewsCardProps {
+  item: NewsItem;
+  onClick: (item: NewsItem) => void;
+  variant?: "grid" | "featured";
+  t: (key: string) => string;
+}
+
+interface EventCardProps {
+  event: EventItem;
+  onClick: (event: EventItem) => void;
+  t: (key: string) => string;
+}
+
+interface NewsModalProps {
+  item: NewsItem | null;
+  onClose: () => void;
+  t: (key: string) => string;
+}
+
+interface EventModalProps {
+  event: EventItem | null;
+  onClose: () => void;
+  t: (key: string) => string;
+}
+
+interface FixedHireCTAProps {
+  t: (key: string) => string;
+}
+
 // News data (UNCHANGED - keep as mock data, no translation)
-const newsItems = [
+const newsItems: NewsItem[] = [
   {
     id: 1,
     title: "Indaro Foundation Launches New Youth Arts Center",
@@ -189,7 +261,7 @@ const newsItems = [
 ];
 
 // Events data (UNCHANGED - keep as mock data, no translation)
-const events = [
+const events: EventItem[] = [
   {
     id: 101,
     title: "Traditional Dance Performance",
@@ -360,7 +432,7 @@ const events = [
 ];
 
 // Hire Us packages (UNCHANGED - keep as mock data, no translation)
-const hirePackages = [
+const hirePackages: HirePackage[] = [
   {
     id: "traditional-dance",
     name: "Traditional Dance Troupe",
@@ -427,7 +499,7 @@ const hirePackages = [
 ];
 
 // Testimonials from past clients (UNCHANGED - keep as mock data, no translation)
-const hireTestimonials = [
+const hireTestimonials: Testimonial[] = [
   {
     id: 1,
     name: "Kigali Marriott Hotel",
@@ -455,13 +527,22 @@ const hireTestimonials = [
 ];
 
 // News Card Component with i18n (UI only)
-const NewsCard = ({ item, onClick, variant = "grid", t }) => {
-  const categoryColors = {
+const NewsCard: React.FC<NewsCardProps> = ({
+  item,
+  onClick,
+  variant = "grid",
+  t,
+}) => {
+  const categoryColors: Record<string, string> = {
     announcement: "bg-blue-100 text-blue-700",
     achievement: "bg-green-100 text-green-700",
     impact: "bg-purple-100 text-purple-700",
     partnership: "bg-orange-100 text-orange-700",
     event: "bg-pink-100 text-pink-700",
+  };
+
+  const getCategoryColor = (category: string): string => {
+    return categoryColors[category] || "bg-gray-100 text-gray-700";
   };
 
   if (variant === "featured") {
@@ -483,7 +564,7 @@ const NewsCard = ({ item, onClick, variant = "grid", t }) => {
 
           <div className="absolute top-6 left-6">
             <span
-              className={`px-4 py-2 rounded-full text-sm font-semibold ${categoryColors[item.category]}`}
+              className={`px-4 py-2 rounded-full text-sm font-semibold ${getCategoryColor(item.category)}`}
             >
               {t(`news.categories.${item.category}`)}
             </span>
@@ -553,7 +634,7 @@ const NewsCard = ({ item, onClick, variant = "grid", t }) => {
         />
         <div className="absolute top-3 left-3">
           <span
-            className={`px-3 py-1 rounded-full text-xs font-semibold ${categoryColors[item.category]}`}
+            className={`px-3 py-1 rounded-full text-xs font-semibold ${getCategoryColor(item.category)}`}
           >
             {t(`news.categories.${item.category}`)}
           </span>
@@ -608,8 +689,8 @@ const NewsCard = ({ item, onClick, variant = "grid", t }) => {
 };
 
 // Event Card Component with i18n (UI only)
-const EventCard = ({ event, onClick, t }) => {
-  const eventTypeColors = {
+const EventCard: React.FC<EventCardProps> = ({ event, onClick, t }) => {
+  const eventTypeColors: Record<string, string> = {
     performance: "bg-purple-100 text-purple-700",
     workshop: "bg-blue-100 text-blue-700",
     sports: "bg-green-100 text-green-700",
@@ -618,9 +699,15 @@ const EventCard = ({ event, onClick, t }) => {
     community: "bg-gray-100 text-gray-700",
   };
 
-  const daysUntil = Math.ceil(
-    (new Date(event.date) - new Date()) / (1000 * 60 * 60 * 24),
-  );
+  const getEventTypeColor = (type: string): string => {
+    return eventTypeColors[type] || "bg-gray-100 text-gray-700";
+  };
+
+  // Fix date arithmetic by converting to Date objects
+  const eventDate = new Date(event.date);
+  const today = new Date();
+  const diffTime = eventDate.getTime() - today.getTime();
+  const daysUntil = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
   const isSoon = daysUntil <= 7 && daysUntil > 0;
 
   return (
@@ -650,7 +737,7 @@ const EventCard = ({ event, onClick, t }) => {
           <div className="flex items-start justify-between mb-2">
             <div>
               <span
-                className={`text-xs px-2 py-1 rounded-full ${eventTypeColors[event.category]}`}
+                className={`text-xs px-2 py-1 rounded-full ${getEventTypeColor(event.category)}`}
               >
                 {t(`news.categories.${event.type}`)}
               </span>
@@ -702,7 +789,7 @@ const EventCard = ({ event, onClick, t }) => {
 };
 
 // News Modal Component with i18n (UI only)
-const NewsModal = ({ item, onClose, t }) => {
+const NewsModal: React.FC<NewsModalProps> = ({ item, onClose, t }) => {
   const [liked, setLiked] = useState(false);
   const [saved, setSaved] = useState(false);
 
@@ -804,7 +891,7 @@ const NewsModal = ({ item, onClose, t }) => {
           <div className="border-t pt-6">
             <h3 className="font-semibold mb-3">{t("news.modal.tags")}</h3>
             <div className="flex flex-wrap gap-2">
-              {item.tags.map((tag, idx) => (
+              {item.tags.map((tag: string, idx: number) => (
                 <span
                   key={idx}
                   className="px-3 py-1 bg-gray-100 text-gray-600 rounded-full text-sm"
@@ -821,7 +908,7 @@ const NewsModal = ({ item, onClose, t }) => {
 };
 
 // Event Modal Component with i18n (UI only)
-const EventModal = ({ event, onClose, t }) => {
+const EventModal: React.FC<EventModalProps> = ({ event, onClose, t }) => {
   const [registered, setRegistered] = useState(false);
 
   if (!event) return null;
@@ -970,7 +1057,7 @@ const EventModal = ({ event, onClose, t }) => {
           <div className="border-t pt-6">
             <h3 className="font-semibold mb-3">{t("news.events.tags")}</h3>
             <div className="flex flex-wrap gap-2">
-              {event.tags.map((tag, idx) => (
+              {event.tags.map((tag: string, idx: number) => (
                 <span
                   key={idx}
                   className="px-3 py-1 bg-gray-100 text-gray-600 rounded-full text-sm"
@@ -987,7 +1074,7 @@ const EventModal = ({ event, onClose, t }) => {
 };
 
 // Fixed Hire Us CTA Component with i18n (UI only, package names translated)
-const FixedHireCTA = ({ t }) => {
+const FixedHireCTA: React.FC<FixedHireCTAProps> = ({ t }) => {
   const [isMinimized, setIsMinimized] = useState(false);
   const [showHireModal, setShowHireModal] = useState(false);
 
@@ -1175,7 +1262,7 @@ const FixedHireCTA = ({ t }) => {
                           {t("news.hireUs.includes")}:
                         </p>
                         <ul className="text-xs text-gray-500 space-y-1">
-                          {pkg.includes.map((item, idx) => (
+                          {pkg.includes.map((item: string, idx: number) => (
                             <li key={idx} className="flex items-center gap-1">
                               <CheckCircle className="w-3 h-3 text-green-500" />
                               {item}
@@ -1265,16 +1352,16 @@ const FixedHireCTA = ({ t }) => {
 };
 
 // Main News & Events Page with i18n
-const NewsEventsPage = () => {
+const NewsEventsPage: React.FC = () => {
   const { t } = useTranslation();
-  const [activeTab, setActiveTab] = useState("all");
-  const [selectedNews, setSelectedNews] = useState(null);
-  const [selectedEvent, setSelectedEvent] = useState(null);
-  const [viewMode, setViewMode] = useState("grid");
-  const [searchQuery, setSearchQuery] = useState("");
-  const [filterCategory, setFilterCategory] = useState("all");
+  const [activeTab, setActiveTab] = useState<string>("all");
+  const [selectedNews, setSelectedNews] = useState<NewsItem | null>(null);
+  const [selectedEvent, setSelectedEvent] = useState<EventItem | null>(null);
+  const [viewMode, setViewMode] = useState<string>("grid");
+  const [searchQuery, setSearchQuery] = useState<string>("");
+  const [filterCategory, setFilterCategory] = useState<string>("all");
 
-  const featuredNews = newsItems.filter((item) => item.featured)[0];
+  const featuredNews = newsItems.find((item) => item.featured);
 
   // Filter news based on tab and search
   const filteredNews = newsItems.filter((item) => {
@@ -1303,14 +1390,17 @@ const NewsEventsPage = () => {
     return true;
   });
 
+  // Fix date comparison by converting to timestamps
+  const today = new Date();
+
   // Upcoming events sorted by date
   const upcomingEvents = [...events]
-    .filter((e) => new Date(e.date) >= new Date())
-    .sort((a, b) => new Date(a.date) - new Date(b.date));
+    .filter((e) => new Date(e.date).getTime() >= today.getTime())
+    .sort((a, b) => new Date(a.date).getTime() - new Date(b.date).getTime());
 
   const pastEvents = [...events]
-    .filter((e) => new Date(e.date) < new Date())
-    .sort((a, b) => new Date(b.date) - new Date(a.date));
+    .filter((e) => new Date(e.date).getTime() < today.getTime())
+    .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
 
   return (
     <div className="min-h-screen bg-white font-sans">
@@ -1679,8 +1769,13 @@ const NewsEventsPage = () => {
 
                 <div className="space-y-4">
                   {filteredEvents
-                    .filter((e) => new Date(e.date) >= new Date())
-                    .sort((a, b) => new Date(a.date) - new Date(b.date))
+                    .filter(
+                      (e) => new Date(e.date).getTime() >= today.getTime(),
+                    )
+                    .sort(
+                      (a, b) =>
+                        new Date(a.date).getTime() - new Date(b.date).getTime(),
+                    )
                     .map((event) => (
                       <EventCard
                         key={event.id}
@@ -1691,8 +1786,9 @@ const NewsEventsPage = () => {
                     ))}
                 </div>
 
-                {filteredEvents.filter((e) => new Date(e.date) >= new Date())
-                  .length === 0 && (
+                {filteredEvents.filter(
+                  (e) => new Date(e.date).getTime() >= today.getTime(),
+                ).length === 0 && (
                   <div className="text-center py-12 bg-gray-50 rounded-xl">
                     <Calendar className="w-12 h-12 text-gray-300 mx-auto mb-3" />
                     <p className="text-gray-500">

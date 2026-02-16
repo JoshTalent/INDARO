@@ -1,4 +1,3 @@
-import React from "react";
 import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
 import { useTranslation } from "react-i18next";
@@ -12,14 +11,11 @@ import {
   Instagram,
   Linkedin,
   Youtube,
-  ArrowRight,
   Send,
   ChevronRight,
-  Globe,
   Shield,
   Award,
   Clock,
-  Sparkles,
   Music,
   BookOpen,
   Camera,
@@ -27,15 +23,11 @@ import {
   Users,
   Home,
   HeartHandshake,
-  ChevronUp,
 } from "lucide-react";
 
 const Footer = () => {
   const { t } = useTranslation();
 
-  const scrollToTop = () => {
-    window.scrollTo({ top: 0, behavior: "smooth" });
-  };
 
   // Current year for copyright
   const currentYear = new Date().getFullYear();

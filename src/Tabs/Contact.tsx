@@ -30,8 +30,56 @@ import {
   Minus,
 } from "lucide-react";
 
+// Type Definitions
+interface MapPlaceholderProps {
+  location?: string;
+}
+
+interface ContactInfoCardProps {
+  icon: React.ElementType;
+  title: string;
+  content: string | string[];
+  subtitle?: string;
+  action?: {
+    type: string;
+    text: string;
+  };
+  color?: string;
+}
+
+interface FormInputProps {
+  label: string;
+  type?: string;
+  icon?: React.ElementType;
+  required?: boolean;
+  name?: string;
+  value?: string;
+  onChange?: (
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
+  ) => void;
+  placeholder?: string;
+  rows?: number;
+}
+
+interface SuccessModalProps {
+  onClose: () => void;
+}
+
+interface TeamMember {
+  name: string;
+  role: string;
+  email: string;
+  phone: string;
+  image: string;
+}
+
+interface FAQ {
+  question: string;
+  answer: string;
+}
+
 // Import for map - using a placeholder since we can't use actual map
-const MapPlaceholder = ({ location }) => {
+const MapPlaceholder: React.FC<MapPlaceholderProps> = () => {
   const { t } = useTranslation();
 
   return (
@@ -115,7 +163,7 @@ const MapPlaceholder = ({ location }) => {
 };
 
 // Team Members (names remain untranslated as they're proper nouns)
-const teamMembers = [
+const teamMembers: TeamMember[] = [
   {
     name: "Jean Claude Uwimana",
     role: "Executive Director",
@@ -151,7 +199,7 @@ const teamMembers = [
 ];
 
 // Contact Info Card Component
-const ContactInfoCard = ({
+const ContactInfoCard: React.FC<ContactInfoCardProps> = ({
   icon: Icon,
   title,
   content,
@@ -160,19 +208,23 @@ const ContactInfoCard = ({
   color = "blue",
 }) => {
   const { t } = useTranslation();
-  const [copied, setCopied] = useState(false);
+  const [copied, setCopied] = useState<boolean>(false);
 
-  const handleCopy = (text) => {
+  const handleCopy = (text: string) => {
     navigator.clipboard.writeText(text);
     setCopied(true);
     setTimeout(() => setCopied(false), 2000);
   };
 
-  const colors = {
+  const colors: Record<string, string> = {
     blue: "bg-blue-50 text-blue-600 border-blue-100",
     green: "bg-green-50 text-green-600 border-green-100",
     purple: "bg-purple-50 text-purple-600 border-purple-100",
     orange: "bg-orange-50 text-orange-600 border-orange-100",
+  };
+
+  const getColorClass = (colorKey: string): string => {
+    return colors[colorKey] || colors.blue;
   };
 
   return (
@@ -181,7 +233,7 @@ const ContactInfoCard = ({
       className="bg-white rounded-2xl p-6 shadow-lg hover:shadow-xl transition-all border border-gray-100"
     >
       <div className="flex items-start gap-4">
-        <div className={`p-3 rounded-xl ${colors[color]}`}>
+        <div className={`p-3 rounded-xl ${getColorClass(color)}`}>
           <Icon className="w-6 h-6" />
         </div>
         <div className="flex-1">
@@ -222,15 +274,19 @@ const ContactInfoCard = ({
 };
 
 // Form Input Component
-const FormInput = ({
+const FormInput: React.FC<FormInputProps> = ({
   label,
   type = "text",
   icon: Icon,
-  required,
+  required = false,
+  name,
+  value,
+  onChange,
+  placeholder,
+  rows,
   ...props
 }) => {
-  const [focused, setFocused] = useState(false);
-  const { t } = useTranslation();
+  const [focused, setFocused] = useState<boolean>(false);
 
   return (
     <div className="relative">
@@ -245,12 +301,17 @@ const FormInput = ({
         )}
         {type === "textarea" ? (
           <textarea
-            rows={4}
+            rows={rows || 4}
             className={`w-full px-4 ${Icon ? "pl-12" : "pl-4"} pr-4 py-3 border rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all ${
               focused ? "border-blue-500" : "border-gray-300"
             }`}
             onFocus={() => setFocused(true)}
             onBlur={() => setFocused(false)}
+            name={name}
+            value={value}
+            onChange={onChange}
+            placeholder={placeholder}
+            required={required}
             {...props}
           />
         ) : (
@@ -261,6 +322,11 @@ const FormInput = ({
             }`}
             onFocus={() => setFocused(true)}
             onBlur={() => setFocused(false)}
+            name={name}
+            value={value}
+            onChange={onChange}
+            placeholder={placeholder}
+            required={required}
             {...props}
           />
         )}
@@ -270,7 +336,7 @@ const FormInput = ({
 };
 
 // Success Modal
-const SuccessModal = ({ onClose }) => {
+const SuccessModal: React.FC<SuccessModalProps> = ({ onClose }) => {
   const { t } = useTranslation();
 
   return (
@@ -309,7 +375,7 @@ const SuccessModal = ({ onClose }) => {
 };
 
 // Main Contact Page Component
-const ContactPage = () => {
+const ContactPage: React.FC = () => {
   const { t } = useTranslation();
   const [formData, setFormData] = useState({
     name: "",
@@ -317,11 +383,11 @@ const ContactPage = () => {
     subject: "",
     message: "",
   });
-  const [formStatus, setFormStatus] = useState("idle"); // idle, submitting, success
-  const [showSuccessModal, setShowSuccessModal] = useState(false);
-  const [activeTab, setActiveTab] = useState("contact");
+  const [formStatus, setFormStatus] = useState<string>("idle"); // idle, submitting, success
+  const [showSuccessModal, setShowSuccessModal] = useState<boolean>(false);
+  const [activeTab, setActiveTab] = useState<string>("contact");
 
-  const handleSubmit = (e) => {
+  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setFormStatus("submitting");
 
@@ -334,7 +400,9 @@ const ContactPage = () => {
     }, 1500);
   };
 
-  const handleChange = (e) => {
+  const handleChange = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
+  ) => {
     setFormData({
       ...formData,
       [e.target.name]: e.target.value,
@@ -342,7 +410,7 @@ const ContactPage = () => {
   };
 
   // Get FAQ data from translations
-  const faqs = t("contact.faq.questions", { returnObjects: true });
+  const faqs = t("contact.faq.questions", { returnObjects: true }) as FAQ[];
 
   return (
     <div className="min-h-screen bg-white font-sans">
@@ -531,7 +599,7 @@ const ContactPage = () => {
               title={t("contact.contactInfo.location.title")}
               content={t("contact.contactInfo.location.lines", {
                 returnObjects: true,
-              })}
+              }) as string[]}
               color="purple"
             />
             <ContactInfoCard
@@ -539,7 +607,7 @@ const ContactPage = () => {
               title={t("contact.contactInfo.hours.title")}
               content={t("contact.contactInfo.hours.lines", {
                 returnObjects: true,
-              })}
+              }) as string[]}
               color="orange"
             />
           </div>
@@ -615,7 +683,7 @@ const ContactPage = () => {
                       value={formData.name}
                       onChange={handleChange}
                       icon={Users}
-                      required
+                      required={true}
                       placeholder={t(
                         "contact.contactForm.fields.name.placeholder",
                       )}
@@ -628,7 +696,7 @@ const ContactPage = () => {
                       value={formData.email}
                       onChange={handleChange}
                       icon={Mail}
-                      required
+                      required={true}
                       placeholder={t(
                         "contact.contactForm.fields.email.placeholder",
                       )}
@@ -653,10 +721,11 @@ const ContactPage = () => {
                       value={formData.message}
                       onChange={handleChange}
                       icon={MessageSquare}
-                      required
+                      required={true}
                       placeholder={t(
                         "contact.contactForm.fields.message.placeholder",
                       )}
+                      rows={4}
                     />
 
                     <button
@@ -697,7 +766,7 @@ const ContactPage = () => {
                 <div id="map" className="space-y-6">
                   {/* Map */}
                   <div className="h-96 rounded-2xl overflow-hidden shadow-xl">
-                    <MapPlaceholder />
+                    <MapPlaceholder location="Kigali" />
                   </div>
 
                   {/* Quick Actions */}

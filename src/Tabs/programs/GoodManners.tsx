@@ -1,8 +1,6 @@
-import React, { useState } from "react";
+import  { useState } from "react";
 import { Link } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
-import { useTranslation } from "react-i18next";
-
 // Good Manners & Diversity Program data - Following Tigers data structure
 const mannersProgram = {
   id: "manners",
@@ -222,7 +220,7 @@ const mannersProgram = {
 };
 
 // Fixed Support CTA Component - Following Tigers pattern exactly
-const FixedSupportCTA = ({ program }) => {
+const FixedSupportCTA = ({ program }: { program: typeof mannersProgram }) => {
   const [isMinimized, setIsMinimized] = useState(false);
 
   return (

@@ -1,5 +1,5 @@
 // ProjectsPage.tsx (with UI-only translations)
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, JSX } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Link } from "react-router-dom";
 import { useTranslation } from "react-i18next";
@@ -10,31 +10,78 @@ import {
   Users,
   Target,
   TrendingUp,
-  Clock,
   Award,
   DollarSign,
-  ChevronRight,
   X,
   Share2,
-  Download,
-  Globe,
   BookOpen,
   Music,
   Home,
   Filter,
   Briefcase,
   CheckCircle,
-  BarChart3,
-  PieChart,
-  ArrowRight,
-  Gift,
   HeartHandshake,
-  HandHeart,
-  PlusCircle,
 } from "lucide-react";
 
+// Types
+interface Project {
+  id: number;
+  title: string;
+  category: string;
+  status: "ongoing" | "planned" | "completed";
+  progress: number;
+  goal: number;
+  raised: number;
+  startDate: string;
+  endDate: string;
+  location: string;
+  beneficiaries: number;
+  image: string;
+  gallery: string[];
+  description: string;
+  longDescription: string;
+  impact: string;
+  milestones: Milestone[];
+  team: TeamMember[];
+  partners: string[];
+}
+
+interface Milestone {
+  date: string;
+  title: string;
+  completed: boolean;
+}
+
+interface TeamMember {
+  name: string;
+  role: string;
+  image: string;
+}
+
+interface Category {
+  id: string;
+  icon: JSX.Element;
+  translationKey: string;
+}
+
+interface ProjectCardProps {
+  project: Project;
+  onClick: (project: Project) => void;
+  t: (key: string) => string;
+}
+
+interface ProjectModalProps {
+  project: Project | null;
+  onClose: () => void;
+  t: (key: string) => string;
+}
+
+interface FixedDonationCTAProps {
+  t: (key: string) => string;
+}
+
 // Project data (unchanged - no translations needed)
-const projects = [
+const projects: Project[] = [
   {
     id: 1,
     title: "Umurimo Youth Arts Center",
@@ -338,7 +385,7 @@ const projects = [
 ];
 
 // Categories with translation keys (UI elements only)
-const categories = [
+const categories: Category[] = [
   { id: "all", icon: <Briefcase className="w-5 h-5" />, translationKey: "all" },
   {
     id: "ongoing",
@@ -383,8 +430,8 @@ const categories = [
 ];
 
 // Project Card Component with i18n (UI only)
-const ProjectCard = ({ project, onClick, t }) => {
-  const statusColors = {
+const ProjectCard: React.FC<ProjectCardProps> = ({ project, onClick, t }) => {
+  const statusColors: Record<string, string> = {
     ongoing: "bg-green-100 text-green-700 border-green-200",
     planned: "bg-blue-100 text-blue-700 border-blue-200",
     completed: "bg-purple-100 text-purple-700 border-purple-200",
@@ -497,9 +544,9 @@ const ProjectCard = ({ project, onClick, t }) => {
 };
 
 // Project Modal Component with i18n (UI only)
-const ProjectModal = ({ project, onClose, t }) => {
-  const [activeTab, setActiveTab] = useState("overview");
-  const [selectedImage, setSelectedImage] = useState(0);
+const ProjectModal: React.FC<ProjectModalProps> = ({ project, onClose, t }) => {
+  const [activeTab, setActiveTab] = useState<string>("overview");
+  const [selectedImage, setSelectedImage] = useState<number>(0);
 
   if (!project) return null;
 
@@ -545,7 +592,7 @@ const ProjectModal = ({ project, onClose, t }) => {
           {/* Gallery Thumbnails */}
           {project.gallery.length > 1 && (
             <div className="absolute bottom-4 left-1/2 -translate-x-1/2 flex gap-2">
-              {project.gallery.map((img, idx) => (
+              {project.gallery.map((img: string, idx: number) => (
                 <button
                   key={idx}
                   onClick={() => setSelectedImage(idx)}
@@ -708,14 +755,16 @@ const ProjectModal = ({ project, onClose, t }) => {
                           {t("projects.modal.partners")}
                         </h3>
                         <div className="flex flex-wrap gap-2">
-                          {project.partners.map((partner, idx) => (
-                            <span
-                              key={idx}
-                              className="px-3 py-1 bg-white border rounded-full text-sm"
-                            >
-                              {partner}
-                            </span>
-                          ))}
+                          {project.partners.map(
+                            (partner: string, idx: number) => (
+                              <span
+                                key={idx}
+                                className="px-3 py-1 bg-white border rounded-full text-sm"
+                              >
+                                {partner}
+                              </span>
+                            ),
+                          )}
                         </div>
                       </div>
                     )}
@@ -731,43 +780,47 @@ const ProjectModal = ({ project, onClose, t }) => {
                     exit={{ opacity: 0, y: -20 }}
                     className="space-y-4"
                   >
-                    {project.milestones.map((milestone, idx) => (
-                      <div key={idx} className="flex gap-4">
-                        <div className="relative">
-                          <div
-                            className={`w-6 h-6 rounded-full border-2 flex items-center justify-center ${
-                              milestone.completed
-                                ? "border-green-500 bg-green-500"
-                                : "border-gray-300 bg-white"
-                            }`}
-                          >
-                            {milestone.completed && (
-                              <CheckCircle className="w-4 h-4 text-white" />
-                            )}
-                          </div>
-                          {idx < project.milestones.length - 1 && (
-                            <div className="absolute top-6 left-3 w-0.5 h-12 bg-gray-300" />
-                          )}
-                        </div>
-                        <div className="flex-1 pb-8">
-                          <div className="flex justify-between items-start">
-                            <div>
-                              <h4 className="font-semibold">
-                                {milestone.title}
-                              </h4>
-                              <p className="text-sm text-gray-500">
-                                {new Date(milestone.date).toLocaleDateString()}
-                              </p>
+                    {project.milestones.map(
+                      (milestone: Milestone, idx: number) => (
+                        <div key={idx} className="flex gap-4">
+                          <div className="relative">
+                            <div
+                              className={`w-6 h-6 rounded-full border-2 flex items-center justify-center ${
+                                milestone.completed
+                                  ? "border-green-500 bg-green-500"
+                                  : "border-gray-300 bg-white"
+                              }`}
+                            >
+                              {milestone.completed && (
+                                <CheckCircle className="w-4 h-4 text-white" />
+                              )}
                             </div>
-                            {milestone.completed && (
-                              <span className="text-green-600 text-sm font-medium">
-                                {t("projects.modal.completed")}
-                              </span>
+                            {idx < project.milestones.length - 1 && (
+                              <div className="absolute top-6 left-3 w-0.5 h-12 bg-gray-300" />
                             )}
                           </div>
+                          <div className="flex-1 pb-8">
+                            <div className="flex justify-between items-start">
+                              <div>
+                                <h4 className="font-semibold">
+                                  {milestone.title}
+                                </h4>
+                                <p className="text-sm text-gray-500">
+                                  {new Date(
+                                    milestone.date,
+                                  ).toLocaleDateString()}
+                                </p>
+                              </div>
+                              {milestone.completed && (
+                                <span className="text-green-600 text-sm font-medium">
+                                  {t("projects.modal.completed")}
+                                </span>
+                              )}
+                            </div>
+                          </div>
                         </div>
-                      </div>
-                    ))}
+                      ),
+                    )}
                   </motion.div>
                 )}
 
@@ -780,7 +833,7 @@ const ProjectModal = ({ project, onClose, t }) => {
                     exit={{ opacity: 0, y: -20 }}
                     className="grid gap-6"
                   >
-                    {project.team.map((member, idx) => (
+                    {project.team.map((member: TeamMember, idx: number) => (
                       <div
                         key={idx}
                         className="flex items-center gap-4 p-4 bg-gray-50 rounded-xl"
@@ -863,8 +916,8 @@ const ProjectModal = ({ project, onClose, t }) => {
 };
 
 // Fixed Donation CTA Component with i18n (UI only)
-const FixedDonationCTA = ({ t }) => {
-  const [isMinimized, setIsMinimized] = useState(false);
+const FixedDonationCTA: React.FC<FixedDonationCTAProps> = ({ t }) => {
+  const [isMinimized, setIsMinimized] = useState<boolean>(false);
 
   return (
     <motion.div
@@ -957,15 +1010,14 @@ const FixedDonationCTA = ({ t }) => {
 };
 
 // Main Projects Page with i18n
-const ProjectsPage = () => {
+const ProjectsPage: React.FC = () => {
   const { t } = useTranslation();
-  const [selectedCategory, setSelectedCategory] = useState("all");
-  const [selectedProject, setSelectedProject] = useState(null);
-  const [filteredProjects, setFilteredProjects] = useState(projects);
-  const [searchQuery, setSearchQuery] = useState("");
-  const [showFilters, setShowFilters] = useState(false);
+  const [selectedCategory, setSelectedCategory] = useState<string>("all");
+  const [selectedProject, setSelectedProject] = useState<Project | null>(null);
+  const [filteredProjects, setFilteredProjects] = useState<Project[]>(projects);
+  const [searchQuery, setSearchQuery] = useState<string>("");
+  const [showFilters, setShowFilters] = useState<boolean>(false);
 
-  
   // Filter projects
   useEffect(() => {
     let filtered = [...projects];
@@ -989,13 +1041,21 @@ const ProjectsPage = () => {
   }, [selectedCategory, searchQuery]);
 
   // Calculate totals
-  const totalGoal = projects.reduce((sum, p) => sum + p.goal, 0);
-  const totalRaised = projects.reduce((sum, p) => sum + p.raised, 0);
-  const totalBeneficiaries = projects.reduce(
-    (sum, p) => sum + p.beneficiaries,
+  const totalGoal = projects.reduce(
+    (sum: number, p: Project) => sum + p.goal,
     0,
   );
-  const activeProjects = projects.filter((p) => p.status === "ongoing").length;
+  const totalRaised = projects.reduce(
+    (sum: number, p: Project) => sum + p.raised,
+    0,
+  );
+  const totalBeneficiaries = projects.reduce(
+    (sum: number, p: Project) => sum + p.beneficiaries,
+    0,
+  );
+  const activeProjects = projects.filter(
+    (p: Project) => p.status === "ongoing",
+  ).length;
 
   return (
     <div className="min-h-screen bg-white font-sans">
@@ -1159,7 +1219,9 @@ const ProjectsPage = () => {
                   type="text"
                   placeholder={t("projects.controls.searchPlaceholder")}
                   value={searchQuery}
-                  onChange={(e) => setSearchQuery(e.target.value)}
+                  onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+                    setSearchQuery(e.target.value)
+                  }
                   className="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all"
                 />
                 <svg
@@ -1200,7 +1262,7 @@ const ProjectsPage = () => {
                 className="overflow-hidden"
               >
                 <div className="py-4 flex flex-wrap gap-2">
-                  {categories.map((category) => (
+                  {categories.map((category: Category) => (
                     <button
                       key={category.id}
                       onClick={() => setSelectedCategory(category.id)}
@@ -1226,7 +1288,7 @@ const ProjectsPage = () => {
             {selectedCategory !== "all" && (
               <span className="px-2 py-1 bg-blue-100 text-blue-700 rounded-full flex items-center gap-1">
                 {t(
-                  `projects.categories.${categories.find((c) => c.id === selectedCategory)?.translationKey}`,
+                  `projects.categories.${categories.find((c: Category) => c.id === selectedCategory)?.translationKey}`,
                 )}
                 <button onClick={() => setSelectedCategory("all")}>
                   <X className="w-3 h-3" />
@@ -1248,7 +1310,7 @@ const ProjectsPage = () => {
               exit={{ opacity: 0 }}
               className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"
             >
-              {filteredProjects.map((project) => (
+              {filteredProjects.map((project: Project) => (
                 <ProjectCard
                   key={project.id}
                   project={project}

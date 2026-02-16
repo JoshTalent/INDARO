@@ -1,7 +1,6 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { Link } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
-import { useTranslation } from "react-i18next";
 
 // Dance Program data - Following Tigers data structure
 const danceProgram = {
@@ -250,7 +249,7 @@ const danceProgram = {
 };
 
 // Fixed Support CTA Component - Following Tigers pattern exactly
-const FixedSupportCTA = ({ program }) => {
+const FixedSupportCTA = ({ program }: { program: typeof danceProgram }) => {
   const [isMinimized, setIsMinimized] = useState(false);
 
   return (

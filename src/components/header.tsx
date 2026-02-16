@@ -6,16 +6,11 @@ import {
   Heart,
   Award,
   BookOpen,
-  Users,
-  Home,
   Newspaper,
-  Mail,
   ArrowRight,
   Sparkles,
-  Calendar,
-  Clock,
-  Image,
   FolderKanban,
+  Image,
 } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import { useTranslation } from "react-i18next";
@@ -31,8 +26,6 @@ const IndaroNavbar = () => {
   const [whatWeDoDropdownOpen, setWhatWeDoDropdownOpen] = useState(false);
   const [moreOpen, setMoreOpen] = useState(false);
   const [moreDropdownOpen, setMoreDropdownOpen] = useState(false);
-  const [hoveredProgram, setHoveredProgram] = useState<string | null>(null);
-
   const whatWeDoDropdownRef = useRef<HTMLDivElement>(null);
   const whatWeDoButtonRef = useRef<HTMLButtonElement>(null);
   const moreDropdownRef = useRef<HTMLDivElement>(null);
@@ -172,7 +165,6 @@ const IndaroNavbar = () => {
     { name: t("more.news"), icon: Newspaper, href: "/news" },
   ];
 
-  const allWhatWeDoItems = whatWeDoItems;
   const currentLang = i18n.language?.substring(0, 2) || "en";
 
   return (
@@ -202,7 +194,11 @@ const IndaroNavbar = () => {
 
         {/* ========== DESKTOP MENU ========== */}
         <div className="hidden md:flex items-center space-x-6 lg:space-x-8">
-          {navLinks.map((link, idx) => {
+          {navLinks.map((link) => {
+            function setHoveredProgram(_: string): void {
+              throw new Error("Function not implemented.");
+            }
+
             return link.hasDropdown ? (
               link.key === "whatWeDo" ? (
                 // What We Do dropdown
@@ -310,7 +306,7 @@ const IndaroNavbar = () => {
                                   onHoverStart={() =>
                                     setHoveredProgram(item.name)
                                   }
-                                  onHoverEnd={() => setHoveredProgram(null)}
+                                  onHoverEnd={() => setHoveredProgram("")}
                                 >
                                   <span className="font-medium text-sm text-white/90 group-hover/program:text-indaro-primary transition-colors">
                                     {item.name}
