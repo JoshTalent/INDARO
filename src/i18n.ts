@@ -13,10 +13,10 @@ import newsTranslations from "./Tabs/lang/news";
 import contactTranslations from "./Tabs/lang/contact";
 import donateTranslations from "./Tabs/lang/donate";
 import footerTranslations from "./components/footerLang";
-import impactCounterTranslations from "./components/home/statslang";
 // Common translations for the entire site
 const commonTranslations = {
   en: {
+  
     // Navigation
     nav: {
       home: "Home",
@@ -1324,7 +1324,6 @@ const resources = {
       contact: contactTranslations.en,
       donate: donateTranslations.en,
       footer: footerTranslations.en,
-      impacts: impactCounterTranslations.en,
       programs: {
         boxing: tigersBoxingTranslations.en,
         // Add other program translations here as they become available
@@ -1341,7 +1340,6 @@ const resources = {
       contact: contactTranslations.rw,
       donate: donateTranslations.rw,
       footer: footerTranslations.rw,
-      impacts: impactCounterTranslations.rw,
 
       programs: {
         boxing: tigersBoxingTranslations.rw,
@@ -1359,7 +1357,6 @@ const resources = {
       contact: contactTranslations.fr,
       donate: donateTranslations.fr,
       footer: footerTranslations.fr,
-      impacts: impactCounterTranslations.fr,
 
       programs: {
         boxing: tigersBoxingTranslations.fr,
