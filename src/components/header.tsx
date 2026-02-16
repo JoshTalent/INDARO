@@ -126,7 +126,7 @@ const IndaroNavbar = () => {
     { href: "/", label: t("nav.home"), key: "home" },
     { href: "/about", label: t("nav.about"), key: "about" },
     {
-      href: "/what-we-do",
+      href: "/what/we/do",
       label: t("nav.whatWeDo"),
       key: "whatWeDo",
       hasDropdown: true,
@@ -334,7 +334,7 @@ const IndaroNavbar = () => {
                                 </span>
                               </div>
                               <motion.a
-                                href="/what/we/do"
+                                href="/impact"
                                 whileHover={{ scale: 1.05 }}
                                 whileTap={{ scale: 0.95 }}
                                 onClick={closeWhatWeDoDropdown}
@@ -666,6 +666,43 @@ const IndaroNavbar = () => {
                               transition={{ duration: 0.2 }}
                               className="overflow-hidden"
                             >
+                              {/* VIEW ALL PROGRAMS BUTTON - PROMINENT AT TOP */}
+                              <motion.a
+                                href="/what/we/do"
+                                initial={{ opacity: 0, y: -5 }}
+                                animate={{ opacity: 1, y: 0 }}
+                                transition={{ delay: 0.05 }}
+                                className="flex items-center justify-between px-4 py-3.5 mb-3 bg-gradient-to-r from-indaro-primary/20 to-indaro-primary/5 rounded-xl border border-indaro-primary/30 group"
+                                onClick={() => setMobileMenuOpen(false)}
+                              >
+                                <div className="flex items-center gap-3">
+                                  <div className="p-2 bg-indaro-primary/20 rounded-lg">
+                                    <BookOpen
+                                      size={18}
+                                      className="text-indaro-primary"
+                                    />
+                                  </div>
+                                  <div>
+                                    <span className="font-bold text-white text-base block">
+                                      {t("nav.viewAllPrograms") ||
+                                        "View All Programs"}
+                                    </span>
+                                    <span className="text-xs text-white/60">
+                                      {whatWeDoItems.length}{" "}
+                                      {t("whatWeDo.programs") || "programs"}{" "}
+                                      available
+                                    </span>
+                                  </div>
+                                </div>
+                                <div className="flex items-center gap-2">
+                                  <ArrowRight
+                                    size={18}
+                                    className="text-indaro-primary group-hover:translate-x-1 transition-transform"
+                                  />
+                                </div>
+                              </motion.a>
+
+                              {/* Programs Grid */}
                               <div className="grid grid-cols-1 gap-1 pb-3">
                                 {whatWeDoItems.map((item, index) => (
                                   <motion.a
@@ -673,17 +710,31 @@ const IndaroNavbar = () => {
                                     href={item.href}
                                     initial={{ opacity: 0, x: -10 }}
                                     animate={{ opacity: 1, x: 0 }}
-                                    transition={{ delay: index * 0.03 }}
-                                    className="flex items-center justify-between px-3 py-2.5 text-sm text-white/80 hover:text-indaro-primary hover:bg-white/5 rounded-lg transition-all"
+                                    transition={{ delay: index * 0.03 + 0.1 }}
+                                    className="flex items-center justify-between px-3 py-2.5 text-sm text-white/80 hover:text-indaro-primary hover:bg-white/5 rounded-lg transition-all group"
                                     onClick={() => setMobileMenuOpen(false)}
                                   >
                                     <span>{item.name}</span>
                                     <ArrowRight
                                       size={14}
-                                      className="text-indaro-primary"
+                                      className="text-indaro-primary opacity-0 group-hover:opacity-100 transform translate-x-[-10px] group-hover:translate-x-0 transition-all duration-200"
                                     />
                                   </motion.a>
                                 ))}
+                              </div>
+
+                              {/* Optional: Support footer */}
+                              <div className="mt-2 pt-3 border-t border-white/10">
+                                <div className="flex items-center gap-2 px-3 py-2">
+                                  <Heart
+                                    size={14}
+                                    className="text-indaro-primary"
+                                  />
+                                  <span className="text-xs text-white/60">
+                                    {t("footer.support") ||
+                                      "Support our programs • Make a difference today"}
+                                  </span>
+                                </div>
                               </div>
                             </motion.div>
                           )}

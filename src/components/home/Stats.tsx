@@ -1,4 +1,4 @@
-// src/components/home/ImpactCounter.tsx
+// src/components/home/impactsCounter.tsx
 "use client";
 
 import { useEffect, useState, useRef } from "react";
@@ -49,17 +49,78 @@ const Counter = ({ end, duration = 2, suffix = "+" }: CounterProps) => {
   );
 };
 
-export default function ImpactCounter() {
-  const { t } = useTranslation();
+export default function ImpactsCounter() {
+  const { t, i18n } = useTranslation();
   const sectionRef = useRef(null);
   const isInView = useInView(sectionRef, { once: true, margin: "-100px" });
 
-  const impactStats = [
+  // Debug: Log the entire translations object to see what's available
+  console.log("Current language:", i18n.language);
+  console.log(
+    "Available keys:",
+    Object.keys(i18n.getResourceBundle(i18n.language, "translation")),
+  );
+
+  // Try to access the translations
+  const title = t("impacts.title", { defaultValue: "FALLBACK: impacts.title" });
+  const titleHighlight = t("impacts.titleHighlight", {
+    defaultValue: "FALLBACK: impacts.titleHighlight",
+  });
+  const subtitle = t("impacts.subtitle", {
+    defaultValue: "FALLBACK: impacts.subtitle",
+  });
+  const button = t("impacts.button", {
+    defaultValue: "FALLBACK: impacts.button",
+  });
+
+  // Log each translation to see if they're working
+  console.log({
+    title,
+    titleHighlight,
+    subtitle,
+    button,
+    childrenLabel: t("impacts.stats.children.label", {
+      defaultValue: "FALLBACK: impacts.stats.children.label",
+    }),
+    childrenDesc: t("impacts.stats.children.description", {
+      defaultValue: "FALLBACK: impacts.stats.children.description",
+    }),
+    talentsLabel: t("impacts.stats.talents.label", {
+      defaultValue: "FALLBACK: impacts.stats.talents.label",
+    }),
+    talentsDesc: t("impacts.stats.talents.description", {
+      defaultValue: "FALLBACK: impacts.stats.talents.description",
+    }),
+    studentsLabel: t("impacts.stats.students.label", {
+      defaultValue: "FALLBACK: impacts.stats.students.label",
+    }),
+    studentsDesc: t("impacts.stats.students.description", {
+      defaultValue: "FALLBACK: impacts.stats.students.description",
+    }),
+    programsLabel: t("impacts.stats.programs.label", {
+      defaultValue: "FALLBACK: impacts.stats.programs.label",
+    }),
+    programsDesc: t("impacts.stats.programs.description", {
+      defaultValue: "FALLBACK: impacts.stats.programs.description",
+    }),
+    yearsLabel: t("impacts.stats.years.label", {
+      defaultValue: "FALLBACK: impacts.stats.years.label",
+    }),
+    yearsDesc: t("impacts.stats.years.description", {
+      defaultValue: "FALLBACK: impacts.stats.years.description",
+    }),
+  });
+
+  const impactsStats = [
     {
       id: 1,
       value: 350,
-      label: t("impact.stats.children.label"),
-      description: t("impact.stats.children.description"),
+      label: t("impacts.stats.children.label", {
+        defaultValue: "Children Supported",
+      }),
+      description: t("impacts.stats.children.description", {
+        defaultValue: "Through education, meals, and shelter",
+      }),
       icon: Heart,
       color: "text-rose-600",
       bgColor: "bg-rose-100",
@@ -67,8 +128,12 @@ export default function ImpactCounter() {
     {
       id: 2,
       value: 280,
-      label: t("impact.stats.talents.label"),
-      description: t("impact.stats.talents.description"),
+      label: t("impacts.stats.talents.label", {
+        defaultValue: "Talents Trained",
+      }),
+      description: t("impacts.stats.talents.description", {
+        defaultValue: "In dance, sports & creative arts",
+      }),
       icon: Users,
       color: "text-blue-600",
       bgColor: "bg-blue-100",
@@ -76,8 +141,12 @@ export default function ImpactCounter() {
     {
       id: 3,
       value: 350,
-      label: t("impact.stats.students.label"),
-      description: t("impact.stats.students.description"),
+      label: t("impacts.stats.students.label", {
+        defaultValue: "Students in School",
+      }),
+      description: t("impacts.stats.students.description", {
+        defaultValue: "School fees & materials covered",
+      }),
       icon: GraduationCap,
       color: "text-emerald-600",
       bgColor: "bg-emerald-100",
@@ -85,17 +154,25 @@ export default function ImpactCounter() {
     {
       id: 4,
       value: 15,
-      label: t("impact.stats.programs.label"),
-      description: t("impact.stats.programs.description"),
+      label: t("impacts.stats.programs.label", {
+        defaultValue: "Active Programs",
+      }),
+      description: t("impacts.stats.programs.description", {
+        defaultValue: "From traditional arts to boxing",
+      }),
       icon: Activity,
       color: "text-amber-600",
       bgColor: "bg-amber-100",
     },
     {
       id: 5,
-      value: 8 ,
-      label: t("impact.stats.years.label"),
-      description: t("impact.stats.years.description"),
+      value: 8,
+      label: t("impacts.stats.years.label", {
+        defaultValue: "Years of Impact",
+      }),
+      description: t("impacts.stats.years.description", {
+        defaultValue: "Since 2021",
+      }),
       icon: Calendar,
       color: "text-purple-600",
       bgColor: "bg-purple-100",
@@ -108,15 +185,22 @@ export default function ImpactCounter() {
         {/* Header */}
         <div className="text-center max-w-2xl mx-auto mb-12">
           <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
-            {t("impact.title")}{" "}
-            <span className="text-[#2563eb]">{t("impact.titleHighlight")}</span>
+            {t("impacts.title", { defaultValue: "Our Impact in" })}{" "}
+            <span className="text-[#2563eb]">
+              {t("impacts.titleHighlight", { defaultValue: "Numbers" })}
+            </span>
           </h2>
-          <p className="text-gray-600">{t("impact.subtitle")}</p>
+          <p className="text-gray-600">
+            {t("impacts.subtitle", {
+              defaultValue:
+                "Every number represents a life changed through your support",
+            })}
+          </p>
         </div>
 
         {/* Stats Grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-4 md:gap-6">
-          {impactStats.map((stat, index) => {
+          {impactsStats.map((stat, index) => {
             const Icon = stat.icon;
 
             return (
@@ -157,7 +241,7 @@ export default function ImpactCounter() {
           className="text-center mt-12"
         >
           <button className="px-6 py-3 bg-[#2563eb] text-white rounded-lg font-medium hover:bg-[#1d4ed8] transition-colors shadow-md hover:shadow-lg">
-            {t("impact.button")}
+            {t("impacts.button", { defaultValue: "Support Our Mission" })}
           </button>
         </motion.div>
       </div>
