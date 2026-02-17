@@ -252,10 +252,10 @@ export default function Hero() {
       className="relative h-screen w-full overflow-hidden bg-black"
     >
       {/* Background gradient that persists during transitions */}
-      <div className="absolute inset-0 bg-gradient-to-br from-black via-gray-900 to-black opacity-90" />
+      <div className="absolute inset-0 bg-gradient-to-br from-black via-gray-900 to-black opacity-90 " />
 
       {/* Continuous Slideshow Container */}
-      <div className="relative h-full w-full sm:pt-32">
+      <div className="relative h-full w-full ">
         <AnimatePresence
           initial={false}
           custom={direction}
@@ -328,7 +328,7 @@ export default function Hero() {
                   repeatType: "loop",
                   ease: "linear",
                 }}
-                className="absolute inset-0 opacity-5"
+                className="absolute inset-0 opacity-5 pt-96"
                 style={{
                   backgroundImage: `linear-gradient(90deg, transparent 0%, white 20%, transparent 40%, transparent 60%, white 80%, transparent 100%)`,
                   backgroundSize: "200% 100%",
@@ -338,7 +338,7 @@ export default function Hero() {
 
             {/* Content with staggered animations */}
             <div className="absolute inset-0 flex items-center">
-              <div className="container mx-auto px-4 sm:px-6 lg:px-8">
+              <div className="container mx-auto pt-30 sm:px-6 lg:px-8">
                 <div className="max-w-4xl">
                   <motion.div
                     key={`content-${currentSlide}`}

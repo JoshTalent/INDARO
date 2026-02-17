@@ -357,31 +357,9 @@ const TraditionalDanceDetailPage = () => {
           alt={program.title}
           className="w-full h-full object-cover"
         />
-
         {/* Gradient Overlay with Blue Theme */}
         <div className="absolute inset-0 bg-gradient-to-r from-black/90 to-gray-900/80" />
-
-        {/* Back Button */}
-        <Link
-          to="/what/we/do"
-          className="absolute top-6 left-6 z-20 bg-white/95 hover:bg-white text-gray-800 px-5 py-2.5 rounded-full font-medium flex items-center shadow-xl backdrop-blur-sm transition-all group"
-        >
-          <svg
-            className="w-5 h-5 mr-2 group-hover:-translate-x-1 transition-transform"
-            fill="none"
-            stroke="currentColor"
-            viewBox="0 0 24 24"
-          >
-            <path
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              strokeWidth={2}
-              d="M10 19l-7-7m0 0l7-7m-7 7h18"
-            />
-          </svg>
-          Back to All Programs
-        </Link>
-
+   
         {/* Hero Content */}
         <div className="absolute inset-0 flex items-center">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full">
@@ -433,7 +411,6 @@ const TraditionalDanceDetailPage = () => {
             </motion.div>
           </div>
         </div>
-
         {/* Bottom Gradient Transition */}
         <div className="absolute bottom-0 left-0 right-0 h-24 bg-gradient-to-t from-black-60 to-transparent" />
       </section>
