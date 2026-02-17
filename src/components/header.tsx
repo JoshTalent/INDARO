@@ -169,7 +169,7 @@ const IndaroNavbar = () => {
 
   return (
     <nav
-      className={`fixed top-0 left-0 w-full z-[100] transition-all duration-500 pb-30 ${
+      className={`fixed top-0 left-0 w-full z-[100] transition-all duration-500${
         isScrolled ? "bg-black/90 shadow-lg backdrop-blur-lg" : "bg-transparent"
       }`}
       style={{ isolation: "isolate" }}
