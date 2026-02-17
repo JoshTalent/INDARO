@@ -255,7 +255,7 @@ export default function Hero() {
       <div className="absolute inset-0 bg-gradient-to-br from-black via-gray-900 to-black opacity-90" />
 
       {/* Continuous Slideshow Container */}
-      <div className="relative h-full w-full">
+      <div className="relative h-full w-full sm:pt-32">
         <AnimatePresence
           initial={false}
           custom={direction}
@@ -274,7 +274,6 @@ export default function Hero() {
               width: "100%",
               willChange: "transform",
             }}
-            
           >
             {/* Background Image with Fallback */}
             <div className="relative h-full w-full">
