@@ -28,7 +28,6 @@ import {
 const Footer = () => {
   const { t } = useTranslation();
 
-
   // Current year for copyright
   const currentYear = new Date().getFullYear();
 
@@ -41,7 +40,7 @@ const Footer = () => {
     },
     {
       name: t("footer.quickLinks.links.whatWeDo"),
-      path: "/what-we-do",
+      path: "/what/we/do",
       icon: <HeartHandshake className="w-4 h-4" />,
     },
     {
@@ -427,7 +426,9 @@ const Footer = () => {
           <span>{t("footer.madeWith.text")}</span>
           <Heart className="w-3 h-3 text-red-500 fill-red-500" />
           <a href="https://josuentwari.netlify.app/">
-            <span className="text-bold text-white">{t("footer.madeWith.in")}</span>
+            <span className="text-bold text-white">
+              {t("footer.madeWith.in")}
+            </span>
           </a>
         </div>
       </div>

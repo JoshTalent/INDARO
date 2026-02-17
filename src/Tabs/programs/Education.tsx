@@ -1,4 +1,4 @@
-import  { useState } from "react";
+import { useState } from "react";
 import { Link } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
 
@@ -372,7 +372,7 @@ const EducationSupportDetailPage = () => {
 
         {/* Back Button */}
         <Link
-          to="/what-we-do"
+          to="/what/we/do"
           className="absolute top-6 left-6 z-20 bg-white/95 hover:bg-white text-gray-800 px-5 py-2.5 rounded-full font-medium flex items-center shadow-xl backdrop-blur-sm transition-all group"
         >
           <svg

@@ -172,7 +172,11 @@ const acrobaticsProgram = {
 };
 
 // Fixed Support CTA Component - Following Tigers pattern exactly
-const FixedSupportCTA = ({ program }: { program: typeof acrobaticsProgram }) => {
+const FixedSupportCTA = ({
+  program,
+}: {
+  program: typeof acrobaticsProgram;
+}) => {
   const [isMinimized, setIsMinimized] = useState(false);
 
   return (
@@ -285,7 +289,7 @@ const AcrobaticsDetailPage = () => {
   const program = acrobaticsProgram;
 
   return (
-    <div className="min-h-screen bg-white relative">
+    <div className="min-h-screen bg-white relative ">
       {/* Fixed Support CTA */}
       <FixedSupportCTA program={program} />
 
@@ -303,7 +307,7 @@ const AcrobaticsDetailPage = () => {
 
         {/* Back Button */}
         <Link
-          to="/what-we-do"
+          to="/what/we/do"
           className="absolute top-6 left-6 z-20 bg-white/95 hover:bg-white text-gray-800 px-5 py-2.5 rounded-full font-medium flex items-center shadow-xl backdrop-blur-sm transition-all group"
         >
           <svg

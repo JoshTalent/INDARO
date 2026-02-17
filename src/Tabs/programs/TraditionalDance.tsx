@@ -227,7 +227,11 @@ const traditionalDanceProgram = {
 };
 
 // Fixed Support CTA Component - Following Tigers pattern exactly
-const FixedSupportCTA = ({ program }: { program: typeof traditionalDanceProgram }) => {
+const FixedSupportCTA = ({
+  program,
+}: {
+  program: typeof traditionalDanceProgram;
+}) => {
   const [isMinimized, setIsMinimized] = useState(false);
 
   return (
@@ -359,7 +363,7 @@ const TraditionalDanceDetailPage = () => {
 
         {/* Back Button */}
         <Link
-          to="/what-we-do"
+          to="/what/we/do"
           className="absolute top-6 left-6 z-20 bg-white/95 hover:bg-white text-gray-800 px-5 py-2.5 rounded-full font-medium flex items-center shadow-xl backdrop-blur-sm transition-all group"
         >
           <svg

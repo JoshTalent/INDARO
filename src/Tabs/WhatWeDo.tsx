@@ -553,7 +553,7 @@ export const ProgramDetailPage = () => {
           <h2 className="text-3xl font-bold text-gray-800 mb-4">
             Program not found
           </h2>
-          <Link to="/what-we-do" className="text-blue-600 hover:underline">
+          <Link to="/what/we/do" className="text-blue-600 hover:underline">
             ← Back to programs
           </Link>
         </div>
@@ -574,7 +574,7 @@ export const ProgramDetailPage = () => {
 
         {/* Back button */}
         <Link
-          to="/what-we-do"
+          to="/what/we/do"
           className="absolute top-6 left-6 bg-white/90 hover:bg-white text-gray-800 px-4 py-2 rounded-full font-medium flex items-center shadow-lg transition-all z-10"
         >
           <svg
