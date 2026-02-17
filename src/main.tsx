@@ -51,7 +51,7 @@ const route = createBrowserRouter(
 
         {/* programs */}
         <Route path="what/we/do" element={<WhatWeDo />} />
-        <Route path="program/boxing" element={<ProgramDetailPage />} />
+        <Route path="programs/boxing" element={<ProgramDetailPage />} />
         <Route
           path="programs/traditional/dance"
           element={<TraditionalDance />}

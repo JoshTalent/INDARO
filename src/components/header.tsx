@@ -144,7 +144,7 @@ const IndaroNavbar = () => {
   const whatWeDoItems = [
     { name: t("whatWeDo.acrobatics"), href: "/programs/acrobatics" },
     { name: t("whatWeDo.afroDance"), href: "/programs/dance" },
-    { name: t("whatWeDo.boxing"), href: "/program/boxing" },
+    { name: t("whatWeDo.boxing"), href: "/programs/boxing" },
     { name: t("whatWeDo.educationSupport"), href: "/programs/education" },
     { name: t("whatWeDo.fashion"), href: "/programs/fashion" },
     { name: t("whatWeDo.manners"), href: "/programs/manners" },
