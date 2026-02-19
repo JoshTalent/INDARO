@@ -35,8 +35,15 @@ const IndaroNavbar = () => {
 
   // Detect scroll
   useEffect(() => {
-    const handleScroll = () => setIsScrolled(window.scrollY > 50);
+    const handleScroll = () => {
+      // Set isScrolled to true when scroll position is greater than 50px
+      setIsScrolled(window.scrollY > 50);
+    };
     window.addEventListener("scroll", handleScroll);
+
+    // Initial check in case page loads with scroll position
+    handleScroll();
+
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
@@ -169,8 +176,8 @@ const IndaroNavbar = () => {
 
   return (
     <nav
-      className={`fixed top-0 left-0 w-full z-[100] transition-all duration-500${
-        isScrolled ? "bg-black/90 shadow-lg backdrop-blur-lg" : "bg-transparent"
+      className={`fixed top-0 left-0 w-full z-[100] transition-all duration-500 ${
+        isScrolled ? "bg-black/90 backdrop-blur-md shadow-lg" : "bg-transparent"
       }`}
       style={{ isolation: "isolate" }}
     >
@@ -915,4 +922,3 @@ const IndaroNavbar = () => {
 };
 
 export default IndaroNavbar;
-
