@@ -1,7 +1,7 @@
 import { Link, useParams } from "react-router-dom";
 import { motion } from "framer-motion";
 
-// Program data with images from Unsplash (free to use)
+// Program data with images from Unsplash (free  to use)
 const programs = [
   {
     id: "acrobatics",

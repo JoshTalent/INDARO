@@ -358,6 +358,7 @@ const EducationSupportDetailPage = () => {
       {/* Fixed Support CTA */}
       <FixedSupportCTA program={program} />
 
+
       {/* Hero Section with Main Image */}
       <section className="relative h-[60vh] min-h-[500px] overflow-hidden">
         {/* Main Background Image */}

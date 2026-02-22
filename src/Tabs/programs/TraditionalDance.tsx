@@ -344,6 +344,7 @@ const FixedSupportCTA = ({
 const TraditionalDanceDetailPage = () => {
   const program = traditionalDanceProgram;
 
+  
   return (
     <div className="min-h-screen bg-white relative">
       {/* Fixed Support CTA */}

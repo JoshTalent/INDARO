@@ -23,7 +23,7 @@ import {
   HeartHandshake,
 } from "lucide-react";
 
-// Types
+// Types 
 interface Project {
   id: number;
   title: string;

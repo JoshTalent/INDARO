@@ -32,7 +32,7 @@ import {
 // Donation amounts presets
 const donationAmounts = [10, 25, 50, 100, 250, 500];
 
-// Impact stories data (will be translated via t() in the component)
+// Impact stories data  (will be translated via t() in the component)
 const impactStories = [
   {
     key: "education",

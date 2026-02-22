@@ -29,7 +29,7 @@ import { MapContainer, TileLayer, Marker, Popup } from "react-leaflet";
 import "leaflet/dist/leaflet.css";
 import L from "leaflet";
 
-// Define types for the data structures
+// Define types for the data  structures 
 interface SuccessStory {
   name: string;
   age: string;
